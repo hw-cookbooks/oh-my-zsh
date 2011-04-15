@@ -22,12 +22,13 @@ include_recipe "zsh"
 
 search( :users, "shell:*zsh" ).each do |u|
   user_id = u["id"]
-  execute "clone oh-my-zsh" do
-    command "git clone https://github.com/robbyrussell/oh-my-zsh.git .oh-my-zsh"
+
+  git "/home/#{user_id}/.oh-my-zsh" do
+    repository "https://github.com/robbyrussell/oh-my-zsh.git"
+    reference "master"
     user user_id
     group user_id
-    cwd "/home/#{user_id}"
-    creates "/home/#{user_id}/.oh-my-zsh"
+    action :sync
   end
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
