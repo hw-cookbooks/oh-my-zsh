@@ -28,7 +28,7 @@ search( :users, "shell:*zsh" ).each do |u|
     reference "master"
     user user_id
     group user_id
-    action :sync
+    action :checkout
   end
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
