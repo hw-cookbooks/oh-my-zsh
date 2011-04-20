@@ -22,3 +22,7 @@ Depends on users, git and zsh.
 
 Any user data bag item with a shell set to zsh will have this recipe applied.
 Per-user themes are set by including an +oh-my-zsh-theme+ entry in a user data bag item.
+
+The default recipe clones a copy of the git repository in each home directory once.
+The "shared" recipe clones a single copy, links from each home directory 
+and syncs it each time chef runs.
