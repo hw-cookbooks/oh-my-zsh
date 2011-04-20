@@ -13,7 +13,7 @@ search( :users, "shell:*zsh" ).each do |u|
     to "/usr/src/oh-my-zsh"
     not_if "test -d /home/#{user_id}/.oh-my-zsh"
   end
-  
+
   template "/home/#{user_id}/.zshrc" do
     source "zshrc.erb"
     owner user_id
