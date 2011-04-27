@@ -29,6 +29,7 @@ search( :users, "shell:*zsh" ).each do |u|
     user user_id
     group user_id
     action :checkout
+    not_if "test -d /home/#{user_id}/.oh-my-zsh"
   end
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
