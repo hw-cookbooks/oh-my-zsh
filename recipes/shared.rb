@@ -4,7 +4,26 @@ git "/usr/src/oh-my-zsh" do
   action :sync
 end
 
-search( :users, "shell:*zsh" ).each do |u|
+if Chef::Config[:solo]
+    # support fnichol/chef-user method
+    users = []
+    # loop the users set for the node
+    node["users"].each do |u|
+        # get that users data bag
+        user = data_bag_item('users', u)
+        # finds users with the zsh env
+        if !user["shell"].nil and user["shell"].match("zsh")
+            # add the user to the list to be configured
+            users.push(user["id"])
+        end
+    end
+else
+    # support opscode-cookbooks/users method
+    # search users with the zsh shell
+    users = search( :users, "shell:*zsh" )
+end
+
+users.each do |u|
   user_id = u["id"]
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
