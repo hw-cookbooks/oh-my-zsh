@@ -20,7 +20,28 @@
 include_recipe "git"
 include_recipe "zsh"
 
-search( :users, "shell:*zsh" ).each do |u|
+# search for users
+if Chef::Config[:solo]
+    # support fnichol/chef-user method
+    users = Array.new
+    # loop the users set for the node
+    node["users"].each do |u|
+        # get that users data bag
+        user = data_bag_item('users', u)
+        # finds users with the zsh env
+        # use the array string search method http://www.ruby-doc.org/core-1.9.3/String.html
+        if !user["shell"].nil? and !user["shell"]['zsh'].nil?
+            # add the user to the list to be configured
+            users.push(user)
+        end
+    end
+else
+    # support opscode-cookbooks/users method
+    # search users with the zsh shell
+    users = search( :users, "shell:*zsh" )
+end
+
+users.each do |u|
   user_id = u["id"]
 
   git "/home/#{user_id}/.oh-my-zsh" do
