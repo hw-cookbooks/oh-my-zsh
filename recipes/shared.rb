@@ -1,3 +1,6 @@
+include_recipe "git"
+include_recipe "zsh"
+
 git "/usr/src/oh-my-zsh" do
   repository "https://github.com/robbyrussell/oh-my-zsh.git"
   reference "master"
