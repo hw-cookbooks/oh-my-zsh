@@ -26,15 +26,16 @@ end
 
 users.each do |u|
   user_id = u["id"]
+  user_home = u.index("home").nil? ? "/home/#{user_id}" : u["home"]
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
 
-  link "#{u["home"]}/.oh-my-zsh" do
+  link "#{user_home}/.oh-my-zsh" do
     to "/usr/src/oh-my-zsh"
-    not_if "test -d #{u["home"]}/.oh-my-zsh"
+    not_if "test -d #{user_home}/.oh-my-zsh"
   end
 
-  template "#{u["home"]}/.zshrc" do
+  template "#{user_home}/.zshrc" do
     source "zshrc.erb"
     owner user_id
     group user_id

@@ -43,19 +43,20 @@ end
 
 users.each do |u|
   user_id = u["id"]
+  user_home = u.index("home").nil? ? "/home/#{user_id}" : u["home"]
 
-  git "/home/#{user_id}/.oh-my-zsh" do
+  git "#{user_home}/.oh-my-zsh" do
     repository "https://github.com/robbyrussell/oh-my-zsh.git"
     reference "master"
     user user_id
     group user_id
     action :checkout
-    not_if "test -d /home/#{user_id}/.oh-my-zsh"
+    not_if "test -d #{user_home}/.oh-my-zsh"
   end
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
 
-  template "/home/#{user_id}/.zshrc" do
+  template "#{user_home}/.zshrc" do
     source "zshrc.erb"
     owner user_id
     group user_id
