@@ -43,7 +43,7 @@ end
 
 users.each do |u|
   user_id = u["id"]
-  user_home = u.index("home").nil? ? "/home/#{user_id}" : u["home"]
+  user_home = u.has_key?("home").nil? ? "/home/#{user_id}" : u["home"]
 
   git "#{user_home}/.oh-my-zsh" do
     repository "https://github.com/robbyrussell/oh-my-zsh.git"

@@ -26,7 +26,7 @@ end
 
 users.each do |u|
   user_id = u["id"]
-  user_home = u.index("home").nil? ? "/home/#{user_id}" : u["home"]
+  user_home = u.has_key?("home").nil? ? "/home/#{user_id}" : u["home"]
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
 
