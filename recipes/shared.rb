@@ -31,11 +31,13 @@ users.each do |u|
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
 
   link "#{user_home}/.oh-my-zsh" do
+    only_if "test -d #{user_home}"
     to "/usr/src/oh-my-zsh"
     not_if "test -d #{user_home}/.oh-my-zsh"
   end
 
   template "#{user_home}/.zshrc" do
+    only_if "test -d #{user_home}"
     source "zshrc.erb"
     owner user_id
     group user_id
