@@ -20,21 +20,43 @@
 include_recipe "git"
 include_recipe "zsh"
 
-search( :users, "shell:*zsh" ).each do |u|
-  user_id = u["id"]
+# search for users
+if Chef::Config[:solo]
+    # support fnichol/chef-user method
+    users = Array.new
+    # loop the users set for the node
+    node["users"].each do |u|
+        # get that users data bag
+        user = data_bag_item('users', u)
+        # finds users with the zsh env
+        # use the array string search method http://www.ruby-doc.org/core-1.9.3/String.html
+        if !user["shell"].nil? and !user["shell"]['zsh'].nil?
+            # add the user to the list to be configured
+            users.push(user)
+        end
+    end
+else
+    # support opscode-cookbooks/users method
+    # search users with the zsh shell
+    users = search( :users, "shell:*zsh" )
+end
 
-  git "/home/#{user_id}/.oh-my-zsh" do
+users.each do |u|
+  user_id = u["id"]
+  user_home = u.has_key?("home").nil? ? "/home/#{user_id}" : u["home"]
+
+  git "#{user_home}/.oh-my-zsh" do
     repository "https://github.com/robbyrussell/oh-my-zsh.git"
     reference "master"
     user user_id
     group user_id
     action :checkout
-    not_if "test -d /home/#{user_id}/.oh-my-zsh"
+    not_if "test -d #{user_home}/.oh-my-zsh"
   end
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
 
-  template "/home/#{user_id}/.zshrc" do
+  template "#{user_home}/.zshrc" do
     source "zshrc.erb"
     owner user_id
     group user_id

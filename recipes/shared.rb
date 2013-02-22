@@ -4,17 +4,40 @@ git "/usr/src/oh-my-zsh" do
   action :sync
 end
 
-search( :users, "shell:*zsh" ).each do |u|
+if Chef::Config[:solo]
+    # support fnichol/chef-user method
+    users = Array.new
+    # loop the users set for the node
+    node["users"].each do |u|
+        # get that users data bag
+        user = data_bag_item('users', u)
+        # finds users with the zsh env
+        # use the array string search method http://www.ruby-doc.org/core-1.9.3/String.html
+        if !user["shell"].nil? and !user["shell"]['zsh'].nil?
+            # add the user to the list to be configured
+            users.push(user)
+        end
+    end
+else
+    # support opscode-cookbooks/users method
+    # search users with the zsh shell
+    users = search( :users, "shell:*zsh" )
+end
+
+users.each do |u|
   user_id = u["id"]
+  user_home = u.has_key?("home").nil? ? "/home/#{user_id}" : u["home"]
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
 
-  link "/home/#{user_id}/.oh-my-zsh" do
+  link "#{user_home}/.oh-my-zsh" do
+    only_if "test -d #{user_home}"
     to "/usr/src/oh-my-zsh"
-    not_if "test -d /home/#{user_id}/.oh-my-zsh"
+    not_if "test -d #{user_home}/.oh-my-zsh"
   end
 
-  template "/home/#{user_id}/.zshrc" do
+  template "#{user_home}/.zshrc" do
+    only_if "test -d #{user_home}"
     source "zshrc.erb"
     owner user_id
     group user_id
