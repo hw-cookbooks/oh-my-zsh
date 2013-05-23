@@ -29,4 +29,12 @@ search( :users, "shell:*zsh" ).each do |u|
     )
     action :create_if_missing
   end
+
+  file "#{user_home}/.zshenv" do
+    content 'DEBIAN_PREVENT_KEYBOARD_CHANGES=yes'
+    owner user_id
+    group user_id
+    # action :create_if_missing
+  end if platform_family?('debian')
+
 end
