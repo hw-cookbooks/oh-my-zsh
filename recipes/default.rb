@@ -39,7 +39,10 @@ search( :users, "shell:*zsh" ).each do |u|
     source "zshrc.erb"
     owner user_id
     group user_id
-    variables( :theme => ( theme || node[:ohmyzsh][:theme] ))
+    variables(
+        :theme => (theme || node[:ohmyzsh][:theme]),
+        :plugins => (u['zsh_plugins'] || node[:ohmyzsh][:plugins])
+    )
     action :create_if_missing
   end
 end
