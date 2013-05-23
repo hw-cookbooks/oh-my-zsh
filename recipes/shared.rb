@@ -34,7 +34,7 @@ search( :users, "shell:*zsh" ).each do |u|
     content 'DEBIAN_PREVENT_KEYBOARD_CHANGES=yes'
     owner user_id
     group user_id
-    # action :create_if_missing
+    action :create_if_missing
   end if platform_family?('debian')
 
 end
