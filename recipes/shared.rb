@@ -24,7 +24,8 @@ search( :users, "shell:*zsh" ).each do |u|
     group user_id
     variables(
         :theme => ( theme || node[:ohmyzsh][:theme] ),
-        :plugins => ( u['zsh_plugins'] || node[:ohmyzsh][:plugins])
+        :plugins => ( u['zsh_plugins'] || node[:ohmyzsh][:plugins]),
+        :auto_update => false, # in shared mode repository should be updated by root
     )
     action :create_if_missing
   end
