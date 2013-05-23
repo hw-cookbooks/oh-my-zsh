@@ -1,10 +1,8 @@
 include_recipe "git"
 include_recipe "zsh"
 
-git node[:ohmyzsh][:shared_path] do
-  repository "https://github.com/robbyrussell/oh-my-zsh.git"
-  reference "master"
-  action :sync
+download_oh_my_zsh node[:ohmyzsh][:shared_path] do
+  mode :shared
 end
 
 search( :users, "shell:*zsh" ).each do |u|

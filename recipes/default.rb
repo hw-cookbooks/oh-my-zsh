@@ -24,13 +24,10 @@ search( :users, "shell:*zsh" ).each do |u|
   user_id = u["id"]
   user_home = u["home"] ? u["home"] : "/home/#{user_id}"
 
-  git "#{user_home}/.oh-my-zsh" do
-    repository "https://github.com/robbyrussell/oh-my-zsh.git"
-    reference "master"
+  download_oh_my_zsh user_home do
+    mode :user
     user user_id
     group user_id
-    action :checkout
-    not_if "test -d #{user_home}/.oh-my-zsh"
   end
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
