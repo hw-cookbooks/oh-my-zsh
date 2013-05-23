@@ -30,24 +30,10 @@ search( :users, "shell:*zsh" ).each do |u|
     group user_id
   end
 
-  theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
-
-  template "#{user_home}/.zshrc" do
-    source "zshrc.erb"
-    owner user_id
-    group user_id
-    variables(
-        :theme => (theme || node[:ohmyzsh][:theme]),
-        :plugins => (u['zsh_plugins'] || node[:ohmyzsh][:plugins]),
-        :auto_update => node[:ohmyzsh][:auto_update]
-    )
-    action :create_if_missing
+  configure_oh_my_zsh u['id'] do
+    user_home user_home
+    theme u['oh-my-zsh-theme']
+    plugins u['zsh_plugins']
+    auto_update node[:ohmyzsh][:auto_update]
   end
-
-  file "#{user_home}/.zshenv" do
-    content 'DEBIAN_PREVENT_KEYBOARD_CHANGES=yes'
-    owner user_id
-    group user_id
-    action :create_if_missing
-  end if platform_family?('debian')
 end
