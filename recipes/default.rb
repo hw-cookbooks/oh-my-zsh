@@ -28,7 +28,8 @@ search( :users, "shell:*zsh" ).each do |u|
     mode :user
     user user_id
     group user_id
-    only_if { ::File.directory?(user_home) }
+    # User exist on the system
+    only_if "id #{user_id}"
   end
 
   configure_oh_my_zsh u['id'] do
@@ -36,6 +37,5 @@ search( :users, "shell:*zsh" ).each do |u|
     theme u['oh-my-zsh-theme']
     plugins u['zsh_plugins']
     auto_update node[:ohmyzsh][:auto_update]
-    only_if { ::File.directory?(user_home) }
   end
 end

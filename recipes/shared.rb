@@ -11,8 +11,8 @@ search( :users, "shell:*zsh" ).each do |u|
 
   link "#{user_home}/.oh-my-zsh" do
     to node[:ohmyzsh][:shared_path]
-    # Missing home directory or already linked
-    not_if { !::File.directory?(user_home) || ::File.symlink?("#{user_home}/.oh-my-zsh") }
+    # User exist on the system
+    only_if "id #{user_id}"
   end
 
   configure_oh_my_zsh u['id'] do
@@ -20,8 +20,6 @@ search( :users, "shell:*zsh" ).each do |u|
     theme u["oh-my-zsh-theme"]
     plugins u['zsh_plugins']
     auto_update false # Shared copy should not be auto updated by users
-    # User home exist
-    only_if { ::File.directory?(user_home) }
   end
 
 end

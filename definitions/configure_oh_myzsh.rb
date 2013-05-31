@@ -18,6 +18,7 @@ define :configure_oh_my_zsh do
         :auto_update => auto_update
     )
     action file_action
+    only_if "test -d #{user_home}"
   end
 
   file "#{user_home}/.zshenv" do
@@ -25,6 +26,7 @@ define :configure_oh_my_zsh do
     owner params[:user]
     group params[:group]
     action file_action
+    only_if "test -d #{user_home}"
   end if platform_family?('debian')
 
 end
