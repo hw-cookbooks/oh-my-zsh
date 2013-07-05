@@ -20,7 +20,7 @@
 include_recipe "git"
 include_recipe "zsh"
 
-search( :users, "shell:*zsh" ).each do |u|
+search( :users, "shell:*zsh AND NOT action:remove" ).each do |u|
   user_id = u["id"]
 
   git "/home/#{user_id}/.oh-my-zsh" do
