@@ -1,0 +1,8 @@
+{ 
+  "comment": "A Test User",
+  "groups": "sysadmin",
+  "ssh_keys": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA7HWholLnWMEN1fceFYIxeB+ujQPPwQKMJ+XrPMartqgNsgNgUDmCfJxwwuy8U2GxshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigXshVRBf2DyMy8ndxLjChLuRMJWxVigX/7ohpzngKJRAKBoVUo4wYjMhMxeKkXEn4bKpW2YXqdQ== testuser@machine",
+  "uid": 1337,
+  "id": "kitchen",
+  "shell": "/bin/zsh"
+}

@@ -1,0 +1,10 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+site 'http://community.opscode.com/api/v1'
+
+cookbook 'apt'
+cookbook 'yum'
+cookbook 'chef-solo-search'
+cookbook 'users'
+cookbook 'zsh'
+cookbook 'oh-my-zsh', path: '.'

@@ -1,0 +1,26 @@
+---
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+
+platforms:
+- name: ubuntu-12.04
+  run_list:
+  - recipe[apt]
+- name: ubuntu-10.04
+  run_list:
+  - recipe[apt]
+- name: centos-6.4
+  run_list:
+  - recipe[yum]
+- name: centos-5.9
+  run_list:
+  - recipe[yum]
+
+suites:
+- name: default
+  run_list:
+  - recipe[chef-solo-search]
+  - recipe[users::sysadmins]
+  - recipe[oh-my-zsh]
+  attributes: {}
