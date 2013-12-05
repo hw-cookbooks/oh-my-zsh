@@ -30,6 +30,7 @@ search( :users, "shell:*zsh AND NOT action:remove" ).each do |u|
     group user_id
     action :checkout
     not_if "test -d /home/#{user_id}/.oh-my-zsh"
+    only_if { ::File.exists?("/home/#{user_id}") }
   end
 
   theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
@@ -40,5 +41,6 @@ search( :users, "shell:*zsh AND NOT action:remove" ).each do |u|
     group user_id
     variables( :theme => ( theme || node[:ohmyzsh][:theme] ))
     action :create_if_missing
+    only_if { ::File.exists?("/home/#{user_id}") }
   end
 end

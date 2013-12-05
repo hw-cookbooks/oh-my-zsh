@@ -12,6 +12,7 @@ search( :users, "shell:*zsh" ).each do |u|
   link "/home/#{user_id}/.oh-my-zsh" do
     to "/usr/src/oh-my-zsh"
     not_if "test -d /home/#{user_id}/.oh-my-zsh"
+    only_if { ::File.exists?("/home/#{user_id}") }
   end
 
   template "/home/#{user_id}/.zshrc" do
@@ -20,5 +21,6 @@ search( :users, "shell:*zsh" ).each do |u|
     group user_id
     variables( :theme => ( theme || node[:ohmyzsh][:theme] ))
     action :create_if_missing
+    only_if { ::File.exists?("/home/#{user_id}") }
   end
 end
