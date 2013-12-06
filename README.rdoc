@@ -17,6 +17,7 @@ Depends on users, git and zsh.
 = ATTRIBUTES:
 
 * +ohmyzsh[:theme]+ sets the default oh-my-zsh theme.
+* +ohmyzsh[:plugins]+ array of plugins to be enabled.
 
 = USAGE:
 
