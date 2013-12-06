@@ -38,7 +38,10 @@ search( :users, "shell:*zsh AND NOT action:remove" ).each do |u|
     source "zshrc.erb"
     owner user_id
     group user_id
-    variables( :theme => ( theme || node[:ohmyzsh][:theme] ))
+    variables(
+      :theme => ( theme || node[:ohmyzsh][:theme] ),
+      :plugins => node[:ohmyzsh][:plugins]
+    )
     action :create_if_missing
   end
 end
