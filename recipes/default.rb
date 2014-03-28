@@ -22,23 +22,20 @@ include_recipe "zsh"
 
 search( :users, "shell:*zsh AND NOT action:remove" ).each do |u|
   user_id = u["id"]
+  user_home = u["home"] ? u["home"] : "/home/#{user_id}"
 
-  git "/home/#{user_id}/.oh-my-zsh" do
-    repository "https://github.com/robbyrussell/oh-my-zsh.git"
-    reference "master"
+  download_oh_my_zsh user_home do
+    mode :user
     user user_id
     group user_id
-    action :checkout
-    not_if "test -d /home/#{user_id}/.oh-my-zsh"
+    # User exist on the system
+    only_if "id #{user_id}"
   end
 
-  theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
-
-  template "/home/#{user_id}/.zshrc" do
-    source "zshrc.erb"
-    owner user_id
-    group user_id
-    variables( :theme => ( theme || node[:ohmyzsh][:theme] ))
-    action :create_if_missing
+  configure_oh_my_zsh u['id'] do
+    user_home user_home
+    theme u['oh-my-zsh-theme']
+    plugins u['zsh_plugins']
+    auto_update node[:ohmyzsh][:auto_update]
   end
 end
