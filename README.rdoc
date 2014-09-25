@@ -4,6 +4,8 @@ A cookbook that installs and configures oh-my-zsh!
 
 https://github.com/robbyrussell/oh-my-zsh
 
+Forked version of original by [Heavy Water Software Inc.](https://github.com/hw-cookbooks/oh-my-zsh)
+
 = REQUIREMENTS:
 
 == Platform:
