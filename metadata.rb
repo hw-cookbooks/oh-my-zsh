@@ -4,7 +4,7 @@ maintainer_email "support@heavywater.io"
 license          "Apache 2.0"
 description      "Installs/Configures oh-my-zsh"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.4.4"
+version          "0.4.5"
 
 depends          "git"
 depends          "zsh"
