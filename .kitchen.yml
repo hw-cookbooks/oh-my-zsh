@@ -1,26 +1,33 @@
 ---
-driver_plugin: vagrant
-driver_config:
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
   require_chef_omnibus: true
+  data_bags_path: "./data_bags/"
 
 platforms:
+- name: ubuntu-14.04
+  run_list:
+  - recipe[apt]
+
 - name: ubuntu-12.04
   run_list:
   - recipe[apt]
-- name: ubuntu-10.04
-  run_list:
-  - recipe[apt]
-- name: centos-6.4
+
+- name: centos-7.1
   run_list:
   - recipe[yum]
-- name: centos-5.9
+
+- name: centos-6.6
   run_list:
   - recipe[yum]
+
 
 suites:
 - name: default
   run_list:
-  - recipe[chef-solo-search]
   - recipe[users::sysadmins]
   - recipe[oh-my-zsh]
   attributes: {}
