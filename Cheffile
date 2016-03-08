@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-site 'http://community.opscode.com/api/v1'
+site "http://supermarket.chef.io/api/v1"
+
+cookbook 'oh-my-zsh', :path => '.'
 
 cookbook 'apt'
 cookbook 'yum'
-cookbook 'chef-solo-search'
-cookbook 'oh-my-zsh', path: '.'
