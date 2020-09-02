@@ -1,1 +1,1 @@
-default[:ohmyzsh][:theme] = "afowler"
+default[:ohmyzsh][:theme] = 'afowler'
